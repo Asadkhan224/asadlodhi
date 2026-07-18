@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title id="pageTitle">Blog Post | Asad Khan</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--red:#00B8D4;--red-dark:#0089A3;--red-light:#4DD8EA;--black:#05070F;--dark:#0A0E1C;--dark3:#161B36;--white:#FFFFFF;--grey:#8B93B8;--light-grey:#C4CBE8;--card-dark:#0D1226;--card-border:#262E52;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.05);}
+.nav-logo{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:0.88rem;color:var(--light-grey);transition:color 0.2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--white);}
+.nav-right{display:flex;align-items:center;gap:16px;}
+.nav-social-links{display:flex;gap:14px;}
+.nav-social-links a{color:var(--grey);font-size:1rem;transition:color 0.2s;}
+.nav-social-links a:hover{color:var(--white);}
+.btn-hire{background:var(--white);color:var(--black);padding:9px 22px;border-radius:50px;font-size:0.85rem;font-weight:600;transition:all 0.2s;}
+.btn-hire:hover{background:var(--red);color:var(--white);}
+
+/* BACK BTN */
+.back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--red);font-size:0.9rem;font-weight:600;margin-bottom:32px;transition:gap 0.2s;}
+.back-btn:hover{gap:10px;}
+
+/* POST CONTAINER */
+.post-container{max-width:800px;margin:0 auto;padding:140px 40px 80px;}
+
+/* POST HEADER */
+.post-header{margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--card-border);}
+.post-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px;font-size:0.85rem;color:var(--grey);}
+.post-meta span{display:flex;align-items:center;gap:5px;}
+.post-badge{background:rgba(0,184,212,0.15);color:var(--red);padding:4px 12px;border-radius:50px;font-weight:600;font-size:0.75rem;}
+.post-title{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:800;line-height:1.2;color:var(--white);}
+
+/* POST CONTENT */
+.post-content{font-size:1rem;line-height:1.8;color:var(--light-grey);}
+.post-content h2{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;margin:40px 0 20px;color:var(--white);}
+.post-content h3{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;margin:30px 0 16px;color:var(--white);}
+.post-content p{margin-bottom:16px;}
+.post-content ul,.post-content ol{margin:16px 0 16px 24px;}
+.post-content li{margin-bottom:8px;}
+.post-content strong{color:var(--red);}
+.post-content em{color:var(--light-grey);}
+
+/* LOADING */
+.loading{text-align:center;padding:80px 20px;}
+.spinner{display:inline-block;width:40px;height:40px;border:3px solid var(--card-border);border-top-color:var(--red);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ERROR */
+.error-state{text-align:center;padding:80px 20px;color:var(--grey);}
+.error-state i{font-size:3rem;margin-bottom:16px;color:var(--card-border);}
+.error-state h2{color:var(--light-grey);margin-bottom:8px;}
+
+/* FOOTER */
+footer{background:var(--black);padding:32px 60px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--card-border);flex-wrap:wrap;gap:16px;}
+.footer-left{font-size:0.82rem;color:var(--grey);}
+.footer-center{font-size:0.82rem;color:var(--grey);}
+.footer-center a{color:var(--grey);text-decoration:none;transition:color 0.2s;margin:0 12px;}
+.footer-center a:hover{color:var(--white);}
+.footer-right{display:flex;gap:16px;}
+.footer-right a{color:var(--grey);font-size:1rem;transition:color 0.2s;}
+.footer-right a:hover{color:var(--white);}
+
+/* MOBILE */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:all 0.3s;}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+.mobile-drawer{display:none;position:fixed;inset:0;z-index:1050;background:rgba(0,0,0,0.97);flex-direction:column;align-items:center;justify-content:center;}
+.mobile-drawer.open{display:flex;}
+.mobile-drawer a{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;padding:14px 40px;width:100%;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);}
+.mobile-drawer a:hover{color:#00B8D4;}
+
+@media(max-width:900px){
+  nav{padding:14px 20px;}
+  .nav-links{display:none;}
+  .nav-social-links{display:none;}
+  .hamburger{display:flex;}
+  .post-container{padding:120px 20px 60px;}
+  .post-title{font-size:1.6rem;}
+  .post-content{font-size:0.95rem;}
+  .post-content h2{font-size:1.3rem;}
+  footer{padding:20px;flex-direction:column;gap:12px;}
+}
+@media(max-width:480px){
+  .post-container{padding:100px 16px 40px;}
+  .post-title{font-size:1.3rem;}
+  .post-content{font-size:0.9rem;line-height:1.6;}
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="../index.html">Home</a>
+  <a href="../blog.html">Blog</a>
+  <a href="../index.html#contact">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="../index.html" class="nav-logo">Asad Khan</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../blog.html" class="active">Blog</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-social-links">
+      <a href="https://github.com/asadlodhi143" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com/asadlodhi_143/" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+    <a href="../index.html#contact" class="btn-hire">Hire Me</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- POST CONTAINER -->
+<div class="post-container">
+  <a href="../blog.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+  
+  <div id="postContent">
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading post...</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">© 2026 Asad Khan · Faisalabad, Pakistan</div>
+  <div class="footer-center" style="font-size:0.82rem;">
+    <a href="../privacy-policy.html" style="color:var(--grey);margin:0 12px;transition:color 0.2s;">Privacy Policy</a> · 
+    <a href="../terms.html" style="color:var(--grey);margin:0 12px;transition:color 0.2s;">Terms</a> · 
+    <a href="../disclaimer.html" style="color:var(--grey);margin:0 12px;transition:color 0.2s;">Disclaimer</a>
+  </div>
+  <div class="footer-right">
+    <a href="https://github.com/asadlodhi143" target="_blank"><i class="fab fa-github"></i></a>
+    <a href="https://www.instagram.com/asadlodhi_143/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.linkedin.com/in/muhammad-asad-khan-b22606419/?skipRedirect=true" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+  </div>
+</footer>
+
+<script>
+function toggleMenu() {
+  document.getElementById('mobileDrawer').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.hamburger') && !e.target.closest('.mobile-drawer')) {
+    document.getElementById('mobileDrawer').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  }
+});
+
+// Get slug from URL
+const urlParams = new URLSearchParams(window.location.search);
+const slug = urlParams.get('slug');
+
+// Load and display post
+async function loadPost() {
+  try {
+    if (!slug) throw new Error('No post specified');
+
+    // Load posts.json to find the post
+    const res = await fetch('../posts.json?v=' + Date.now());
+    if (!res.ok) throw new Error('Could not load posts');
+    const allPosts = await res.json();
+    
+    const post = allPosts.find(p => p.slug === slug);
+    if (!post) throw new Error('Post not found');
+
+    // Load the content from the txt file
+    const contentRes = await fetch('../' + post.content + '?v=' + Date.now());
+    if (!contentRes.ok) throw new Error('Could not load post content');
+    const contentText = await contentRes.text();
+
+    // Parse content (simple parsing - content after "Introduction" or main text)
+    const lines = contentText.split('\n');
+    let content = '';
+    let inContent = false;
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      // Skip metadata lines
+      if (line.startsWith('Title:') || line.startsWith('Date:') || line.startsWith('Category:') || 
+          line.startsWith('Author:') || line.startsWith('Read Time:')) {
+        continue;
+      }
+      // Skip empty lines at the start
+      if (!inContent && line.trim() === '') continue;
+      inContent = true;
+      content += line + '\n';
+    }
+
+    // Format content (simple markdown-like parsing)
+    content = content
+      .replace(/^### (.+?)$/gm, '<h3>$1</h3>')
+      .replace(/^## (.+?)$/gm, '<h2>$1</h2>')
+      .replace(/^# (.+?)$/gm, '<h2>$1</h2>')
+      .replace(/^(\d+\.\s.+?)$/gm, '<li>$1</li>')
+      .replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>')
+      .replace(/\n\n+/g, '</p><p>')
+      .replace(/^(?!<[^>])(.+?)$/gm, '<p>$1</p>');
+
+    // Set page title
+    document.title = post.title + ' | Asad Khan';
+    document.getElementById('pageTitle').textContent = post.title + ' | Asad Khan';
+
+    // Render post
+    const html = `
+      <article>
+        <div class="post-header">
+          <div class="post-meta">
+            <span class="post-badge">${post.category}</span>
+            <span><i class="fas fa-calendar-alt"></i> ${post.date}</span>
+            <span><i class="fas fa-clock"></i> ${post.readTime}</span>
+            <span><i class="fas fa-user"></i> Asad Khan</span>
+          </div>
+          <h1 class="post-title">${post.title}</h1>
+        </div>
+        <div class="post-content">
+          ${content}
+        </div>
+      </article>
+    `;
+    
+    document.getElementById('postContent').innerHTML = html;
+
+  } catch (e) {
+    console.error('Error:', e);
+    document.getElementById('postContent').innerHTML = `
+      <div class="error-state">
+        <i class="fas fa-exclamation-circle"></i>
+        <h2>Could Not Load Post</h2>
+        <p>${e.message}</p>
+        <a href="../blog.html" class="back-btn" style="margin-top:20px;"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+      </div>
+    `;
+  }
+}
+
+// Load post on page load
+window.addEventListener('load', loadPost);
+</script>
+
+</body>
+</html>

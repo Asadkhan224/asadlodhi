@@ -1,0 +1,198 @@
+/* ══════════════════════════════════════════════
+   NEON 3D LAYER — floating shapes, particles, tilt
+   ══════════════════════════════════════════════ */
+
+/* fixed particle canvas sits behind everything */
+#neon-particles {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+  width: 100%; height: 100%;
+}
+
+body { position: relative; }
+section, footer, header { position: relative; z-index: 1; }
+
+/* ── PROFESSIONAL AMBIENT BACKGROUND (mesh gradient + faint grid) ── */
+body {
+  background-color: #060608;
+  background-image:
+    radial-gradient(ellipse 900px 600px at 12% 8%, rgba(0,180,216,0.10), transparent 60%),
+    radial-gradient(ellipse 800px 700px at 90% 15%, rgba(14,165,196,0.08), transparent 60%),
+    radial-gradient(ellipse 900px 800px at 50% 100%, rgba(0,180,216,0.06), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.035'%3E%3Cpath d='M0 .5H64M.5 0V64'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+  background-attachment: fixed, fixed, fixed, fixed;
+}
+@media (max-width: 768px) {
+  /* keep it light on mobile — fewer gradients, scroll attachment for perf */
+  body {
+    background-image:
+      radial-gradient(ellipse 500px 400px at 20% 5%, rgba(0,180,216,0.09), transparent 60%),
+      radial-gradient(ellipse 500px 400px at 90% 90%, rgba(14,165,196,0.07), transparent 60%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.03'%3E%3Cpath d='M0 .5H64M.5 0V64'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: no-repeat, no-repeat, repeat;
+    background-attachment: scroll, scroll, scroll;
+  }
+}
+
+
+/* ambient ground glow that follows scroll (legacy — no longer instantiated by JS) */
+.neon-glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: .55;
+  mix-blend-mode: screen;
+}
+
+/* floating 3D geometric shapes */
+.float-shape {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.shape-cube {
+  width: 60px; height: 60px;
+  border: 2px solid var(--red);
+  background: linear-gradient(135deg, var(--teal-glow), transparent);
+  box-shadow: 0 0 24px var(--teal-glow), inset 0 0 20px var(--teal-glow);
+  border-radius: 10px;
+  animation: floatSpin 9s ease-in-out infinite;
+}
+.shape-ring {
+  width: 90px; height: 90px;
+  border: 3px solid var(--purple);
+  border-radius: 50%;
+  box-shadow: 0 0 30px var(--purple-glow);
+  animation: floatSpin 12s ease-in-out infinite reverse;
+}
+.shape-tri {
+  width: 0; height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 52px solid var(--pink);
+  opacity: .8;
+  filter: drop-shadow(0 0 18px var(--pink));
+  animation: floatSpin 10s ease-in-out infinite;
+}
+.shape-diamond {
+  width: 46px; height: 46px;
+  background: linear-gradient(135deg, var(--red), var(--purple));
+  box-shadow: 0 0 26px var(--purple-glow);
+  transform: rotate(45deg);
+  border-radius: 8px;
+  animation: floatSpin 8s ease-in-out infinite;
+}
+
+@keyframes floatSpin {
+  0%   { transform: translate3d(0,0,0) rotate3d(1,1,0,0deg); }
+  25%  { transform: translate3d(14px,-22px,30px) rotate3d(1,1,0,90deg); }
+  50%  { transform: translate3d(-10px,-8px,-20px) rotate3d(1,1,0,180deg); }
+  75%  { transform: translate3d(-18px,18px,10px) rotate3d(1,1,0,270deg); }
+  100% { transform: translate3d(0,0,0) rotate3d(1,1,0,360deg); }
+}
+
+/* perspective wrapper for tiltable cards */
+.tilt-card { perspective: 900px; }
+.tilt-inner {
+  transition: transform .15s ease-out, box-shadow .25s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.tilt-inner:hover {
+  box-shadow: 0 30px 60px -20px var(--purple-glow), 0 0 0 1px var(--teal-glow);
+}
+
+/* neon text glow accents */
+.section-title span, .hero-title {
+  text-shadow: 0 0 30px var(--teal-glow);
+}
+
+/* glass + neon border refresh for cards */
+.skill-card, .project-card, .process-card, .service-item {
+  position: relative;
+  overflow: hidden;
+}
+.skill-card::before, .project-card::before {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--teal), var(--purple), var(--pink));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .35s ease;
+  pointer-events: none;
+}
+.skill-card:hover::before, .project-card:hover::before { opacity: 1; }
+
+/* reveal-in-3D for scroll elements (works with existing .visible toggle in script.js) */
+.fade-up {
+  transform: translateY(40px) rotateX(8deg);
+  transition: transform .7s cubic-bezier(.2,.8,.2,1), opacity .7s ease;
+}
+.fade-up.visible {
+  transform: translateY(0) rotateX(0deg);
+}
+
+@media (max-width: 768px) {
+  .float-shape { transform: scale(0.55); opacity: 0.7; }
+  .shape-tri, .shape-ring { display: none; } /* keep only 2 lightest shapes on mobile */
+}
+@media (prefers-reduced-motion: reduce) {
+  .float-shape, .fade-up { animation: none !important; transition: none !important; }
+}
+
+/* ── CLICK / TAP LIFT INTERACTION (works on desktop click + mobile tap) ── */
+.click-lift {
+  cursor: pointer;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+}
+.click-lift.card-active {
+  transform: translateY(-14px) scale(1.02);
+  box-shadow: 0 30px 50px -18px var(--purple-glow), 0 0 0 1px var(--teal-glow);
+}
+
+/* extra content panel that rises + fades in on click */
+.reveal-panel {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(16px);
+  transition: max-height .45s ease, opacity .4s ease .05s, transform .4s ease .05s;
+}
+.card-active .reveal-panel {
+  max-height: 400px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* small pop-in badge shown when a card opens */
+.reveal-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 12px; padding: 6px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--teal), var(--purple));
+  color: #fff; font-size: .78rem; font-weight: 600;
+  animation: badgePop .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes badgePop {
+  0% { transform: scale(0.4) translateY(10px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* project image that floats up into view when its card opens */
+.reveal-image-wrap { margin-top: 14px; border-radius: 14px; overflow: hidden; }
+.reveal-image-wrap img {
+  width: 100%; display: block;
+  transform: translateY(24px) scale(1.04);
+  opacity: 0;
+  transition: transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease;
+}
+.card-active .reveal-image-wrap img { transform: translateY(0) scale(1); opacity: 1; }

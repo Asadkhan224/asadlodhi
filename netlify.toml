@@ -1,0 +1,27 @@
+[build]
+  command = "echo 'Static site - no build needed'"
+  publish = "."
+
+[build.environment]
+  PNPM_CONFIG_FROZEN_LOCKFILE = "false"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Cache headers for static assets
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/blog.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
