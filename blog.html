@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Microsoft Clarity (site-wide) -->
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "xlpjov2pxv");
+</script>
+
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Blog | Asad Khan</title>
+<meta name="description" content="Real experiences, honest lessons, and practical tips from Muhammad Asad Khan's journey in digital marketing and web development."/>
+
+<!-- Brand fonts + icons (same as main site) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<!-- Shared brand stylesheets — SAME files as index.html, so nav, footer,
+     colors, typography and spacing stay perfectly in sync automatically. -->
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="premium.css"/>
+
+<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png"/>
+<link rel="manifest" href="site.webmanifest"/>
+
+<style>
+/* ══════════════════════════════════════════════════════════════
+   BLOG-ONLY STYLES
+   (Reset, nav, footer, colors, and fonts already come from style.css
+   / premium.css, so nothing brand-related is duplicated here —
+   only the layout that is unique to this page.)
+   ══════════════════════════════════════════════════════════════ */
+
+/* ---------- Performance: promote animated layers, avoid layout thrash --- */
+.blog-card, .fade-up { will-change: transform, opacity; }
+.blog-card-img img { will-change: transform; }
+
+/* ---------- Nav active-link state (Blog page) ---------- */
+.nav-links a.active { color: var(--white); }
+
+/* ---------- HERO ---------- */
+.blog-hero { padding: 140px 60px 80px; text-align: center; position: relative; overflow: hidden; border-bottom: 1px solid var(--card-border); contain: layout paint; }
+.blog-hero::before {
+  content: 'BLOG'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  font-family: 'Space Grotesk', sans-serif; font-size: clamp(80px, 18vw, 200px); font-weight: 900;
+  color: rgba(255,255,255,0.02); pointer-events: none; white-space: nowrap;
+}
+.blog-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,90,54,0.1); border: 1px solid rgba(255,90,54,0.25);
+  padding: 5px 14px; border-radius: 50px; font-size: 0.78rem; color: var(--red);
+  font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px;
+}
+.blog-eyebrow span { width: 6px; height: 6px; background: var(--red); border-radius: 50%; animation: blogPulse 2s infinite; }
+@keyframes blogPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.blog-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 16px; }
+.blog-hero h1 span { color: var(--red); }
+.blog-hero p { color: var(--grey); font-size: 1rem; max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+/* ---------- FILTERS ---------- */
+.filter-wrap { padding: 40px 60px 0; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.filter-btn {
+  padding: 8px 20px; border-radius: 50px; font-size: 0.82rem; font-weight: 600;
+  border: 1px solid var(--card-border); background: transparent; color: var(--grey);
+  cursor: pointer; font-family: inherit;
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s cubic-bezier(0.4,0,0.2,1), color 0.2s, border-color 0.2s, background 0.2s;
+}
+.filter-btn:hover { border-color: var(--red); color: var(--red); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,90,54,0.18); }
+.filter-btn:active { transform: translateY(1px) scale(0.98); box-shadow: none; }
+.filter-btn.active { background: var(--red); border-color: var(--red); color: var(--white); }
+
+/* ---------- SEARCH ---------- */
+.search-wrap { padding: 20px 60px 0; display: flex; justify-content: center; }
+.search-box {
+  display: flex; align-items: center; gap: 12px; background: var(--card-dark);
+  border: 1px solid var(--card-border); border-radius: 50px; padding: 12px 20px;
+  width: 100%; max-width: 420px; transition: border-color 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+.search-box:focus-within { border-color: var(--red); }
+.search-box i { color: var(--grey); }
+.search-box input { background: transparent; border: none; outline: none; color: var(--white); font-family: inherit; font-size: 0.9rem; width: 100%; }
+.search-box input::placeholder { color: var(--grey); }
+
+/* ---------- GRID ---------- */
+.blog-grid-wrap { padding: 50px 60px 100px; max-width: 1200px; margin: 0 auto; }
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 28px; }
+
+/* ---------- CARD ---------- */
+.blog-card {
+  background: var(--card-dark); border: 1px solid var(--card-border); border-radius: 20px;
+  overflow: hidden; cursor: pointer; display: flex; flex-direction: column;
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s cubic-bezier(0.4,0,0.2,1), border-color 0.25s;
+}
+.blog-card:hover { border-color: rgba(255,90,54,0.4); transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+.blog-card:active { transform: translateY(-2px) scale(0.99); }
+.blog-card-img { width: 100%; height: 200px; background: linear-gradient(135deg, #170A07, #2A130D); display: block; position: relative; overflow: hidden; }
+.blog-card-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+.blog-card:hover .blog-card-img img { transform: scale(1.05); }
+.blog-card-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--red); }
+.blog-cat-badge { position: absolute; top: 14px; left: 14px; background: var(--red); color: var(--white); padding: 4px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 700; }
+.featured-label { position: absolute; top: 14px; right: 14px; background: rgba(255,170,0,0.9); color: #000; padding: 4px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 800; }
+.blog-card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+.blog-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.blog-date, .blog-read-time { font-size: 0.75rem; color: var(--grey); display: flex; align-items: center; gap: 5px; }
+.blog-card-body h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; line-height: 1.3; margin-bottom: 10px; color: var(--white); transition: color 0.2s; }
+.blog-card:hover h3 { color: var(--red); }
+.blog-card-body p { font-size: 0.85rem; color: var(--grey); line-height: 1.65; flex: 1; margin-bottom: 20px; }
+.blog-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+.blog-tag { background: var(--dark3); border: 1px solid var(--card-border); padding: 3px 10px; border-radius: 6px; font-size: 0.72rem; color: var(--light-grey); }
+.blog-read-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--red); font-size: 0.82rem; font-weight: 600; transition: gap 0.2s; }
+.blog-card:hover .blog-read-btn { gap: 10px; }
+
+/* ---------- FEATURED ---------- */
+.blog-card.featured { grid-column: 1 / -1; flex-direction: row; min-height: 260px; }
+.blog-card.featured .blog-card-img { width: 42%; height: auto; flex-shrink: 0; border-radius: 0; }
+.blog-card.featured .blog-card-img img { height: 100%; }
+.blog-card.featured .blog-card-body h3 { font-size: 1.4rem; }
+
+/* ---------- LOADING / EMPTY ---------- */
+.loading-state { text-align: center; padding: 80px 20px; color: var(--grey); }
+.loading-state .spinner { width: 40px; height: 40px; border: 3px solid var(--card-border); border-top-color: var(--red); border-radius: 50%; animation: blogSpin 0.8s linear infinite; margin: 0 auto 16px; will-change: transform; }
+@keyframes blogSpin { to { transform: rotate(360deg); } }
+.empty-state { text-align: center; padding: 80px 20px; color: var(--grey); grid-column: 1 / -1; }
+.empty-state i { font-size: 3rem; margin-bottom: 16px; color: var(--card-border); display: block; }
+.empty-state h3 { font-size: 1.1rem; color: var(--light-grey); margin-bottom: 8px; }
+
+/* ---------- NEWSLETTER ---------- */
+.newsletter-strip { background: linear-gradient(135deg, var(--red), #9A1F1F); padding: 60px; text-align: center; position: relative; overflow: hidden; }
+.newsletter-strip h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; }
+.newsletter-strip p { color: rgba(255,255,255,0.8); margin-bottom: 28px; }
+.newsletter-form { display: flex; gap: 10px; max-width: 420px; margin: 0 auto; }
+.newsletter-form input { flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 50px; padding: 12px 20px; font-family: inherit; font-size: 0.9rem; outline: none; }
+.newsletter-form input::placeholder { color: rgba(255,255,255,0.5); }
+.newsletter-form button {
+  background: #fff; color: var(--red); border: none; border-radius: 50px; padding: 12px 24px;
+  font-weight: 700; font-size: 0.88rem; cursor: pointer; font-family: inherit; white-space: nowrap;
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s cubic-bezier(0.4,0,0.2,1), background 0.2s, color 0.2s;
+}
+.newsletter-form button:hover { background: var(--black); color: #fff; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.35); }
+.newsletter-form button:active { transform: translateY(1px) scale(0.98); box-shadow: none; }
+
+/* ---------- Legal links row (matches main site footer) ---------- */
+.blog-legal-row { text-align: center; padding: 20px; font-size: 0.82rem; border-top: 1px solid rgba(255,255,255,0.1); }
+.blog-legal-row a { color: #C4A79B; margin: 0 12px; text-decoration: none; transition: color 0.2s; }
+.blog-legal-row a:hover { color: var(--white); }
+
+/* ---------- FADE UP reveal (JS-driven, no scroll listener needed) ---------- */
+.fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 900px) {
+  .blog-hero { padding: 120px 20px 60px; }
+  .filter-wrap, .search-wrap, .blog-grid-wrap { padding-left: 16px; padding-right: 16px; }
+  .blog-hero h1 { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+  .blog-card.featured { flex-direction: column; }
+  .blog-card.featured .blog-card-img { width: 100%; height: 200px; }
+  .blog-grid { grid-template-columns: 1fr; gap: 16px; }
+  .newsletter-strip { padding: 40px 20px; }
+  .newsletter-form { flex-direction: column; }
+}
+@media (max-width: 480px) {
+  .blog-hero { padding: 100px 16px 40px; }
+  .blog-eyebrow { font-size: 0.7rem; }
+  .filter-wrap { padding: 24px 16px 0; gap: 6px; }
+  .filter-btn { padding: 6px 14px; font-size: 0.76rem; }
+  .search-wrap { padding: 14px 16px 0; }
+  .blog-card-body { padding: 16px; }
+  .blog-card-body h3 { font-size: 0.95rem; }
+  .blog-card-body p { font-size: 0.82rem; }
+  .newsletter-strip h2 { font-size: 1.3rem; }
+}
+
+/* ---------- Respect reduced-motion users ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .fade-up, .blog-card, .filter-btn, .newsletter-form button, .blog-card-img img { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── MOBILE DRAWER (same markup/classes as index.html) ── -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="index.html">Home</a>
+  <a href="index.html#about">About</a>
+  <a href="index.html#skills">Skills</a>
+  <a href="index.html#projects">Projects</a>
+  <a href="blog.html" style="color:#FF5A36">Blog</a>
+  <a href="index.html#contact">Contact</a>
+  <div class="mobile-drawer-social">
+    <a href="https://github.com/asadlodhi143" target="_blank"><i class="fab fa-github"></i></a>
+    <a href="https://www.instagram.com/asadlodhi_143/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://wa.me/923209835916" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  </div>
+</div>
+
+<!-- ── LEFT ICONS (same as main site) ── -->
+<div class="left-icons">
+  <a href="https://github.com/asadlodhi143" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+  <a href="https://www.linkedin.com/in/muhammad-asad-khan-b22606419/?skipRedirect=true" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+  <a href="https://www.instagram.com/asadlodhi_143/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+</div>
+
+<!-- ── NAVBAR (identical structure/classes to index.html) ── -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo" style="text-decoration:none;">Asad Khan</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-social-links">
+      <a href="https://github.com/asadlodhi143" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com/asadlodhi_143/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.linkedin.com/in/muhammad-asad-khan-b22606419/?skipRedirect=true" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+    <a href="index.html#contact" class="btn-hire">Let's Connect</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="blog-hero">
+  <div class="blog-eyebrow"><span></span> Learning in Public</div>
+  <h1>My <span>Blog</span> &amp; Insights</h1>
+  <p>Real experiences, honest lessons, and practical tips from my journey in digital marketing and web development.</p>
+</div>
+
+<!-- ── FILTERS ── -->
+<div class="filter-wrap" id="filterWrap">
+  <button class="filter-btn active" onclick="filterPosts('all',this)">All Posts</button>
+  <button class="filter-btn" onclick="filterPosts('Digital Marketing',this)">Digital Marketing</button>
+  <button class="filter-btn" onclick="filterPosts('Meta Ads',this)">Meta Ads</button>
+  <button class="filter-btn" onclick="filterPosts('SEO',this)">SEO</button>
+  <button class="filter-btn" onclick="filterPosts('Web Development',this)">Web Dev</button>
+  <button class="filter-btn" onclick="filterPosts('Freelancing Tips',this)">Freelancing</button>
+</div>
+
+<!-- ── SEARCH ── -->
+<div class="search-wrap">
+  <div class="search-box">
+    <i class="fas fa-search"></i>
+    <input type="text" id="searchInput" placeholder="Search posts..." oninput="searchPosts()"/>
+  </div>
+</div>
+
+<!-- ── GRID ── -->
+<div class="blog-grid-wrap">
+  <div class="blog-grid" id="blogGrid">
+    <div class="loading-state" style="grid-column:1/-1">
+      <div class="spinner"></div>
+      <p>Loading posts...</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── NEWSLETTER ── -->
+<div class="newsletter-strip">
+  <h2>Stay in the Loop</h2>
+  <p>Get my latest posts on digital marketing, paid ads, and freelancing tips.</p>
+  <div class="newsletter-form">
+    <input type="email" id="nl-email" placeholder="your@email.com"/>
+    <button onclick="subscribeNewsletter()">Subscribe</button>
+  </div>
+</div>
+
+<!-- ── FOOTER (identical structure/classes to index.html) ── -->
+<div class="footer-name">asad khan</div>
+<footer>
+  <div class="footer-col">
+    <h4>SPECIALTY</h4>
+    <p>Digital Marketing & Web Dev<br>Social Media · SEO · Content<br>Currently Learning Paid Ads</p>
+  </div>
+  <div class="footer-col" style="text-align:center;">
+    <h4>FIND ME</h4>
+    <p>
+      <a href="https://www.instagram.com/asadlodhi_143/" target="_blank" style="color:var(--red);">Instagram <i class="fas fa-arrow-up-right-from-square"></i></a><br>
+      <a href="https://www.linkedin.com/in/muhammad-asad-khan-b22606419/?skipRedirect=true" target="_blank" style="color:var(--red);">LinkedIn <i class="fas fa-arrow-up-right-from-square"></i></a>
+    </p>
+  </div>
+  <div class="footer-col" style="text-align:right;">
+    <h4>AVAILABILITY</h4>
+    <p>Available for opportunities<br>2026</p>
+  </div>
+</footer>
+
+<!-- ── LEGAL LINKS (matches main site) ── -->
+<div class="blog-legal-row">
+  <a href="privacy-policy.html">Privacy Policy</a> ·
+  <a href="terms.html">Terms of Service</a> ·
+  <a href="disclaimer.html">Disclaimer</a>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SCRIPTS
+     Note: the heavy full-page canvas particle systems used on the
+     homepage (neon3d.js / three-scene.js) are intentionally NOT
+     loaded here. On a long, content-heavy page like the blog they
+     redraw a full-document-height canvas every animation frame,
+     which is the main source of scroll stutter. premium.js is kept
+     because it only runs lightweight, event-driven effects (hover
+     tick, click pulse, magnetic buttons, one-time reveal) — nothing
+     that repaints continuously.
+     ══════════════════════════════════════════════════════════════ -->
+<script src="premium.js" defer></script>
+
+<script>
+"use strict";
+
+// ── STATE ─────────────────────────────────────────────────────────
+let ALL_POSTS    = [];
+let activeFilter = 'all';
+let searchQuery  = '';
+
+// ── ICON MAP per category ────────────────────────────────────────
+const EMOJI = {
+  'Digital Marketing': 'fa-bullhorn', 'Meta Ads': 'fa-bullseye', 'Google Ads': 'fa-magnifying-glass-dollar',
+  'SEO': 'fa-magnifying-glass', 'Social Media': 'fa-mobile-screen', 'Web Development': 'fa-code',
+  'Freelancing Tips': 'fa-briefcase', 'Case Study': 'fa-chart-column', 'General': 'fa-pen-nib'
+};
+
+// ── LOAD posts.json (auto-generated by build script) ─────────────
+async function loadPosts() {
+  try {
+    const res = await fetch('posts.json?v=' + Date.now());
+    if (!res.ok) throw new Error('not found');
+    ALL_POSTS = await res.json();
+    renderPosts();
+  } catch (e) {
+    // Fallback: hardcoded sample posts if posts.json hasn't been built yet
+    ALL_POSTS = [
+      {
+        id: 1, slug: 'how-i-built-my-portfolio-free',
+        title: 'How I Built My Freelance Portfolio Website for Free',
+        date: 'July 1, 2026', category: 'Web Development',
+        summary: 'I built a fully professional portfolio website with a contact form and a WhatsApp chat button — all for PKR 0. Here is exactly how I did it.',
+        thumbnail: 'images/asad-desk.webp',
+        tags: ['portfolio', 'github pages', 'freelancing'],
+        readTime: '5 min read', featured: true,
+        link: 'posts/post-viewer.html?slug=how-i-built-my-portfolio-free'
+      },
+      {
+        id: 2, slug: '5-lessons-from-internship',
+        title: '5 Things I Learned in My Digital Marketing Internship',
+        date: 'June 15, 2026', category: 'Digital Marketing',
+        summary: 'After completing my internship at Digital Lodhi Marketing (DLM), here are the 5 most valuable real-world lessons that no course ever taught me.',
+        thumbnail: 'images/asad-headshot.webp',
+        tags: ['internship', 'digital marketing', 'lessons'],
+        readTime: '4 min read', featured: false,
+        link: 'posts/post-viewer.html?slug=5-lessons-from-internship'
+      }
+    ];
+    renderPosts();
+  }
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
+function renderPosts() {
+  const grid = document.getElementById('blogGrid');
+
+  let filtered = ALL_POSTS.filter(p => {
+    const mF = activeFilter === 'all' || p.category === activeFilter;
+    const mS = !searchQuery ||
+               p.title.toLowerCase().includes(searchQuery) ||
+               p.summary.toLowerCase().includes(searchQuery) ||
+               (p.tags || []).some(t => t.toLowerCase().includes(searchQuery));
+    return mF && mS;
+  });
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty-state">
+      <i class="fas fa-pen-nib"></i>
+      <h3>No posts found</h3>
+      <p>Try a different search or check back soon!</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map((p, i) => {
+    const isFeat  = p.featured && i === 0 && activeFilter === 'all' && !searchQuery;
+    const link    = 'posts/post-viewer.html?slug=' + (p.slug || p.id);
+    const emoji   = EMOJI[p.category] || 'fa-pen-nib';
+    const imgHTML = p.thumbnail
+      ? `<img src="${p.thumbnail}" alt="${p.title}" loading="lazy"/>`
+      : `<div class="blog-card-img-placeholder"><i class="fas ${emoji}"></i></div>`;
+    const tagsHTML = (p.tags || []).map(t => `<span class="blog-tag">#${t}</span>`).join('');
+
+    return `
+    <div class="blog-card ${isFeat ? 'featured' : ''} fade-up" onclick="window.location='${link}'">
+      <div class="blog-card-img">
+        ${imgHTML}
+        <span class="blog-cat-badge">${p.category}</span>
+        ${isFeat ? '<span class="featured-label"><i class="fas fa-star"></i> Featured</span>' : ''}
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-meta">
+          <span class="blog-date"><i class="fas fa-calendar-alt"></i> ${p.date}</span>
+          <span class="blog-read-time"><i class="fas fa-clock"></i> ${p.readTime}</span>
+        </div>
+        <h3>${p.title}</h3>
+        <p>${p.summary}</p>
+        <div class="blog-tags">${tagsHTML}</div>
+        <span class="blog-read-btn">Read Post <i class="fas fa-arrow-right"></i></span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Trigger fade-up reveal (single rAF batch — no per-card scroll listeners)
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.fade-up').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 80);
+    });
+  });
+}
+
+// ── FILTER & SEARCH ───────────────────────────────────────────────
+function filterPosts(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPosts();
+}
+function searchPosts() {
+  searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+  renderPosts();
+}
+
+// ── NEWSLETTER ────────────────────────────────────────────────────
+function subscribeNewsletter() {
+  const emailEl = document.getElementById('nl-email');
+  const email = emailEl.value.trim();
+  if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+  alert('Subscribed! Thanks ' + email);
+  emailEl.value = '';
+}
+
+// ── MOBILE MENU ───────────────────────────────────────────────────
+function toggleMobileMenu() {
+  const drawer  = document.getElementById('mobileDrawer');
+  const burger  = document.getElementById('hamburger');
+  const isOpen  = drawer.classList.toggle('open');
+  burger.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('mobileDrawer').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+// ── NAV BACKGROUND ON SCROLL (single rAF-throttled listener — cheap) ──
+(function () {
+  const navEl = document.getElementById('navbar');
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      navEl.style.background = window.scrollY > 50 ? 'rgba(10,10,10,0.98)' : 'rgba(10,10,10,0.85)';
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+
+// ── INIT ──────────────────────────────────────────────────────────
+loadPosts();
+</script>
+</body>
+</html>
